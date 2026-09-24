@@ -1,0 +1,29 @@
+<section class="relative overflow-hidden py-20 sm:py-28">
+  <app-bg-blob color="teal" [opacity]="0.45" class="-left-32 -top-24 h-[26rem] w-[26rem]" />
+  <app-bg-blob color="coral" [opacity]="0.4" class="-bottom-32 -right-24 h-[24rem] w-[24rem]" />
+
+  <div class="container-page relative grid gap-10 lg:grid-cols-12 lg:gap-12">
+    <div class="lg:col-span-5" [appReveal]="0">
+      <div class="card-surface-dark flex h-full flex-col justify-between p-8">
+        <p class="font-serif text-3xl italic leading-snug text-white sm:text-4xl">
+          "We'd rather you know exactly what you're getting than bury it in fine print."
+        </p>
+        <p class="mt-8 text-sm text-ink-300">— Why buy from Subeazy</p>
+      </div>
+    </div>
+
+    <div class="lg:col-span-7">
+      <ul class="divide-y divide-ink-900/8">
+        @for (point of points; track point.title; let i = $index) {
+          <li class="flex items-start gap-5 py-6" [appReveal]="i * 70">
+            <app-icon [name]="point.icon" [size]="24" class="mt-0.5 shrink-0 text-accent-600" />
+            <div>
+              <h3 class="font-bold text-ink-950">{{ point.title }}</h3>
+              <p class="mt-1.5 text-sm text-ink-500">{{ point.description }}</p>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

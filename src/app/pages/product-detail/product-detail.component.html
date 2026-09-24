@@ -1,0 +1,142 @@
+@if (product(); as p) {
+  <section class="relative overflow-hidden pb-10 pt-28 sm:pt-36">
+    <app-bg-blob color="teal" [opacity]="0.35" class="-left-24 -top-16 h-96 w-96" />
+    <app-bg-blob color="coral" [opacity]="0.3" class="-right-20 top-40 h-72 w-72" />
+
+    <div class="container-page relative">
+      <nav class="flex items-center gap-2 text-sm text-ink-500">
+        <a routerLink="/" class="hover:text-accent-700">Home</a>
+        <span>/</span>
+        <a routerLink="/products" class="hover:text-accent-700">Shop</a>
+        <span>/</span>
+        <span class="text-ink-800">{{ p.name }}</span>
+      </nav>
+
+      <div class="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-8">
+        <div class="lg:col-span-7">
+          <span
+            class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br text-base font-black text-white"
+            [ngClass]="accentClass"
+          >
+            @if (icon) {
+              <app-icon [name]="icon" [size]="24" />
+            } @else {
+              {{ p.initials }}
+            }
+          </span>
+          <p class="mt-5 text-sm font-semibold text-ink-500">{{ p.tagline }}</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <h1 class="mt-1 text-4xl font-extrabold tracking-tight text-ink-950 sm:text-5xl">{{ p.name }}</h1>
+            @if (!p.inStock) {
+              <span class="rounded-full bg-ink-700 px-3 py-1 text-xs font-bold text-white">Out of stock</span>
+            }
+          </div>
+
+          @if (p.plans.length > 1) {
+            <div class="mt-6 flex flex-wrap gap-2">
+              @for (planOption of p.plans; track planOption.duration; let i = $index) {
+                <button
+                  type="button"
+                  (click)="selectPlan(i)"
+                  class="rounded-full border px-4 py-2 text-sm font-semibold transition-colors duration-200"
+                  [class]="
+                    planIndex() === i
+                      ? 'border-ink-950 bg-ink-950 text-white'
+                      : 'border-ink-900/12 text-ink-700 hover:border-accent-400'
+                  "
+                >
+                  {{ planOption.duration }}
+                </button>
+              }
+            </div>
+          }
+
+          <div class="mt-6 flex items-baseline gap-3">
+            <span class="text-4xl font-extrabold text-ink-950">{{ p.currency }}{{ plan.discountedPrice }}</span>
+            <span class="text-lg font-medium text-ink-400 line-through">{{ p.currency }}{{ plan.originalPrice }}</span>
+            <span class="rounded-full bg-coral-500/10 px-2.5 py-1 text-xs font-bold text-coral-700">{{ discountPercent }}% off</span>
+          </div>
+          <p class="mt-1 text-sm text-ink-500">
+            {{ plan.duration }}
+            @if (plan.note) {
+              <span class="text-coral-700">· {{ plan.note }}</span>
+            }
+          </p>
+
+          @if (p.inStock) {
+            <a
+              [href]="whatsappLink"
+              target="_blank"
+              rel="noopener"
+              (click)="onWhatsappClick()"
+              class="mt-8 inline-flex items-center gap-2 rounded-full bg-whatsapp px-7 py-3.5 text-base font-bold text-white shadow-lg shadow-whatsapp/25 transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Get {{ p.name }} on WhatsApp
+            </a>
+          } @else {
+            <div class="mt-8">
+              <span
+                class="inline-flex cursor-not-allowed items-center gap-2 rounded-full bg-ink-900/8 px-7 py-3.5 text-base font-bold text-ink-400"
+              >
+                Currently out of stock
+              </span>
+              <p class="mt-2 text-sm text-ink-500">Check back soon, or message us on WhatsApp to be notified.</p>
+            </div>
+          }
+
+          <div class="mt-10 border-t border-ink-900/8 pt-8">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-ink-500">What's included</h2>
+            <ul class="mt-4 space-y-3">
+              @for (benefit of p.benefits; track benefit) {
+                <li class="flex items-start gap-3 text-ink-700">
+                  <app-icon name="check" [size]="18" class="mt-0.5 shrink-0 text-accent-600" />
+                  <span>{{ benefit }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5">
+          <div class="card-surface p-6">
+            <h3 class="font-serif text-xl italic text-ink-950">Two ways to save more</h3>
+            <div class="mt-4 space-y-3 text-sm text-ink-600">
+              <p class="flex items-start gap-2"><app-icon name="spark" [size]="15" class="mt-0.5 shrink-0 text-coral-600" /> First order with Subeazy? Extra 10% off.</p>
+              <p class="flex items-start gap-2"><app-icon name="spark" [size]="15" class="mt-0.5 shrink-0 text-coral-600" /> Refer a friend — both of you get 10% off.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  @if (reviews().length) {
+    <section class="relative overflow-hidden border-t border-ink-900/8 py-16">
+      <app-bg-blob color="teal" [opacity]="0.35" class="-right-20 -top-20 h-80 w-80" />
+      <div class="container-page relative">
+        <h2 class="text-2xl font-extrabold tracking-tight text-ink-950">What buyers say about {{ p.name }}</h2>
+        <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          @for (review of reviews(); track review.id) {
+            <article class="card-surface p-5">
+              <p class="font-semibold text-ink-950">{{ review.name }}</p>
+              <p class="mt-2 text-sm leading-relaxed text-ink-600">&ldquo;{{ review.quote }}&rdquo;</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+  }
+
+  <app-aftersales />
+
+  <section class="border-t border-ink-900/8 py-16">
+    <div class="container-page">
+      <h2 class="text-2xl font-extrabold tracking-tight text-ink-950">Other plans</h2>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        @for (related of relatedProducts(); track related.id) {
+          <app-product-mini-tile [product]="related" />
+        }
+      </div>
+    </div>
+  </section>
+}

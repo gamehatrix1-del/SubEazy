@@ -1,0 +1,30 @@
+<section class="py-16">
+  <div class="container-page">
+    <div
+      class="card-surface mx-auto flex max-w-3xl flex-col items-center gap-2 px-8 py-12 text-center"
+      [appReveal]="0"
+    >
+      @if (state().live) {
+        <span #numberEl class="text-5xl font-extrabold text-gradient-accent sm:text-6xl">{{ displayValue() }}</span>
+        <p class="mt-2 text-ink-600">subscriptions delivered by Subeazy this month</p>
+      } @else {
+        <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent-500/10 text-accent-600">
+          <app-icon name="bolt" [size]="24" />
+        </span>
+        <span class="mt-3 text-2xl font-bold text-ink-950 sm:text-3xl">{{ state().label }}</span>
+        <p class="mt-1 max-w-sm text-sm text-ink-500">
+          Be one of our first customers — message us and we'll get you set up personally.
+        </p>
+        <a
+          [href]="whatsappLink"
+          target="_blank"
+          rel="noopener"
+          (click)="onWhatsappClick()"
+          class="mt-5 inline-flex items-center gap-2 rounded-full bg-whatsapp px-6 py-3 text-sm font-bold text-white transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.02] active:scale-[0.98]"
+        >
+          Chat on WhatsApp
+        </a>
+      }
+    </div>
+  </div>
+</section>

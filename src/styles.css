@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm white — page background (Subeazy brand spec), with a teal-tinted
+     alternate for zebra-striped sections instead of a plain beige panel */
+  --color-cream: #faf9f5;
+  --color-cream-alt: #eef3f0;
+
+  /* Ink — charcoal scale for text and the dark footer (Subeazy brand spec: #1E2420 / #1A1F1C) */
+  --color-ink-50: #f7f8f6;
+  --color-ink-100: #eceee9;
+  --color-ink-200: #d6dad2;
+  --color-ink-300: #b3bcb0;
+  --color-ink-400: #8a897f;
+  --color-ink-500: #666e63;
+  --color-ink-600: #4a5147;
+  --color-ink-700: #363c33;
+  --color-ink-800: #262b23;
+  --color-ink-900: #1e2420;
+  --color-ink-950: #1a1f1c;
+
+  /* Accent — deep teal, the primary brand color (Subeazy brand spec: #0F6E56) */
+  --color-accent-50: #eaf5f1;
+  --color-accent-100: #cfe9de;
+  --color-accent-200: #a0d2bf;
+  --color-accent-300: #6bb89c;
+  --color-accent-400: #3c9d7c;
+  --color-accent-500: #0f6e56;
+  --color-accent-600: #0c5c48;
+  --color-accent-700: #0a4b3a;
+  --color-accent-800: #083a2d;
+  --color-accent-900: #072c22;
+
+  /* Coral — the brand's pop accent, used sparingly (Subeazy brand spec: #E27A50) */
+  --color-coral-50: #fdf1ea;
+  --color-coral-100: #fbdfce;
+  --color-coral-200: #f6bd9c;
+  --color-coral-300: #ee9c70;
+  --color-coral-400: #e78a5c;
+  --color-coral-500: #e27a50;
+  --color-coral-600: #c8603a;
+  --color-coral-700: #a34c2e;
+  --color-coral-800: #813d25;
+  --color-coral-900: #69321f;
+
+  /* WhatsApp brand green — reserved for WhatsApp CTAs only */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1da851;
+
+  /* Type scale — Poppins per the Subeazy brand spec */
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --text-display: 3.75rem;
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.03em;
+  --text-h1: 2.75rem;
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.025em;
+  --text-h2: 2.125rem;
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: 1.5rem;
+  --text-h3--line-height: 1.25;
+
+  /* Motion */
+  --ease-brand: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Shape */
+  --radius-card: 1.5rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-ink-900 font-sans antialiased;
+    background-image: radial-gradient(rgba(30, 36, 32, 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  ::selection {
+    @apply bg-accent-300 text-ink-950;
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  }
+
+  .card-surface {
+    @apply rounded-[var(--radius-card)] border border-ink-900/8 bg-white shadow-[0_1px_2px_rgba(29,26,21,0.04)];
+  }
+
+  .card-surface-dark {
+    @apply rounded-[var(--radius-card)] border border-white/10 bg-ink-900;
+  }
+
+  .text-gradient-accent {
+    background: linear-gradient(90deg, #3c9d7c 0%, #0f6e56 60%, #0a4b3a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Scroll-reveal base state; the ScrollReveal directive toggles .is-visible */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 500ms var(--ease-brand), transform 500ms var(--ease-brand);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[marquee_38s_linear_infinite\] {
+    animation: none;
+  }
+}

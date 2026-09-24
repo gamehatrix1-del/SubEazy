@@ -1,0 +1,106 @@
+<article
+  class="card-surface group relative flex h-full flex-col p-6 transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-1 hover:border-accent-400/40 hover:shadow-xl hover:shadow-ink-900/10"
+  [class.opacity-60]="!product.inStock"
+>
+  @if (!product.inStock) {
+    <span class="absolute -top-3 left-6 rounded-full bg-ink-700 px-3 py-1 text-xs font-bold text-white shadow"
+      >Out of stock</span
+    >
+  } @else if (product.badge) {
+    <span
+      class="absolute -top-3 left-6 rounded-full bg-coral-500 px-3 py-1 text-xs font-bold text-white shadow"
+      >{{ product.badge }}</span
+    >
+  }
+
+  <a [routerLink]="['/products', product.id]" class="flex items-center gap-3">
+    <span
+      class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br text-sm font-black text-white"
+      [ngClass]="accentClass"
+    >
+      @if (icon) {
+        <app-icon [name]="icon" [size]="20" />
+      } @else {
+        {{ product.initials }}
+      }
+    </span>
+    <div>
+      <h3 class="text-lg font-bold text-ink-950 group-hover:text-accent-700">{{ product.name }}</h3>
+      <p class="text-sm text-ink-500">{{ product.tagline }}</p>
+    </div>
+  </a>
+
+  @if (product.plans.length > 1) {
+    <div class="mt-5 flex flex-wrap gap-1.5">
+      @for (p of product.plans; track p.duration; let i = $index) {
+        <button
+          type="button"
+          (click)="selectPlan(i)"
+          class="rounded-full border px-2.5 py-1 text-xs font-semibold transition-colors duration-200"
+          [class]="
+            planIndex() === i
+              ? 'border-ink-950 bg-ink-950 text-white'
+              : 'border-ink-900/12 text-ink-600 hover:border-accent-400'
+          "
+        >
+          {{ p.duration }}
+        </button>
+      }
+    </div>
+  }
+
+  <div class="mt-4 flex items-baseline gap-2">
+    <span class="text-3xl font-extrabold text-ink-950">{{ product.currency }}{{ plan.discountedPrice }}</span>
+    <span class="text-base font-medium text-ink-400 line-through">{{ product.currency }}{{ plan.originalPrice }}</span>
+    <span class="rounded-full bg-coral-500/10 px-2 py-0.5 text-xs font-bold text-coral-700"
+      >{{ discountPercent }}% off</span
+    >
+  </div>
+  <p class="mt-1 text-xs text-ink-400">
+    {{ plan.duration }}
+    @if (plan.note) {
+      <span class="text-coral-700">· {{ plan.note }}</span>
+    }
+  </p>
+
+  <ul class="mt-5 flex-1 space-y-2.5">
+    @for (benefit of product.benefits; track benefit) {
+      <li class="flex items-start gap-2 text-sm text-ink-600">
+        <span class="mt-0.5 text-accent-600">✓</span>
+        <span>{{ benefit }}</span>
+      </li>
+    }
+  </ul>
+
+  <div class="mt-6 space-y-2 rounded-xl border border-ink-900/8 bg-cream-alt/60 p-3 text-xs text-ink-600">
+    <p class="flex items-center gap-1.5"><app-icon name="spark" [size]="13" class="text-coral-600" /> First order with Subeazy? Extra 10% off</p>
+    <p class="flex items-center gap-1.5"><app-icon name="spark" [size]="13" class="text-coral-600" /> Refer a friend — both get 10% off</p>
+  </div>
+
+  <div class="mt-6 flex items-center gap-3">
+    @if (product.inStock) {
+      <a
+        [href]="whatsappLink"
+        target="_blank"
+        rel="noopener"
+        (click)="onWhatsappClick()"
+        class="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-whatsapp px-5 py-3 text-sm font-bold text-white transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.02] active:scale-[0.98]"
+      >
+        Get on WhatsApp
+      </a>
+    } @else {
+      <span
+        class="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded-full bg-ink-900/8 px-5 py-3 text-sm font-bold text-ink-400"
+      >
+        Out of stock
+      </span>
+    }
+    <a
+      [routerLink]="['/products', product.id]"
+      aria-label="View details"
+      class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-ink-900/12 text-ink-700 transition-colors duration-200 hover:border-accent-400 hover:text-accent-700"
+    >
+      <app-icon name="arrow-right" [size]="18" />
+    </a>
+  </div>
+</article>

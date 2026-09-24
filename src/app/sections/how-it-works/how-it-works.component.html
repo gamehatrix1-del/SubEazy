@@ -1,0 +1,31 @@
+<section id="how-it-works" class="scroll-mt-20 py-20 sm:py-28">
+  <div class="container-page">
+    <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-4" [appReveal]="0">
+        <p class="font-serif text-sm italic text-ink-500">From tap to login</p>
+        <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-ink-950 sm:text-4xl">How it works</h2>
+        <p class="mt-4 text-ink-600">Usually inside the same WhatsApp conversation — no accounts, no checkout cart.</p>
+      </div>
+
+      <ol class="lg:col-span-8">
+        @for (step of steps; track step.title; let i = $index; let last = $last) {
+          <li class="relative flex gap-6 pb-10 last:pb-0" [appReveal]="i * 90">
+            @if (!last) {
+              <span class="absolute left-5 top-12 h-full w-px bg-ink-900/10"></span>
+            }
+            <span class="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink-950 text-sm font-bold text-white">
+              {{ i + 1 }}
+            </span>
+            <div class="pt-1">
+              <div class="flex items-center gap-2">
+                <app-icon [name]="step.icon" [size]="18" class="text-accent-600" />
+                <h3 class="font-bold text-ink-950">{{ step.title }}</h3>
+              </div>
+              <p class="mt-1.5 text-sm text-ink-500">{{ step.description }}</p>
+            </div>
+          </li>
+        }
+      </ol>
+    </div>
+  </div>
+</section>

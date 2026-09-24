@@ -1,0 +1,70 @@
+<section class="relative overflow-hidden pb-20 pt-28 sm:pb-28 sm:pt-36">
+  <app-bg-blob color="coral" [opacity]="0.4" class="-right-28 -top-16 h-96 w-96" />
+  <app-bg-blob color="teal" [opacity]="0.4" class="-bottom-24 -left-24 h-80 w-80" />
+
+  <div class="container-page relative grid gap-12 lg:grid-cols-2">
+    <div [appReveal]="0">
+      <p class="font-serif text-sm italic text-ink-500">We reply fast</p>
+      <h1 class="mt-2 text-4xl font-extrabold tracking-tight text-ink-950 sm:text-5xl">Get in touch</h1>
+      <p class="mt-4 max-w-md text-ink-600">
+        WhatsApp is the fastest way to reach us — for anything else, email or the form works too.
+      </p>
+
+      <a
+        [href]="whatsappLink"
+        target="_blank"
+        rel="noopener"
+        (click)="onWhatsappClick()"
+        class="mt-8 inline-flex items-center gap-2 rounded-full bg-whatsapp px-6 py-3.5 text-sm font-bold text-white transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.02] active:scale-[0.98]"
+      >
+        Chat on WhatsApp
+      </a>
+
+      <div class="mt-8 space-y-2 text-sm text-ink-600">
+        <p>Email: <a href="mailto:support@subeazy.in" class="text-accent-700 hover:underline">support&#64;subeazy.in</a></p>
+      </div>
+    </div>
+
+    <div class="card-surface p-6" [appReveal]="100">
+      @if (submitted()) {
+        <p class="text-center text-sm text-emerald-700">Thanks for reaching out — we'll reply soon.</p>
+      } @else {
+        <form class="space-y-4" (ngSubmit)="submit()">
+          <input
+            [(ngModel)]="form.name"
+            name="name"
+            required
+            placeholder="Your name"
+            class="w-full rounded-lg border border-ink-900/15 bg-white px-3 py-2.5 text-sm text-ink-900 outline-none focus:border-accent-500"
+          />
+          <input
+            [(ngModel)]="form.email"
+            name="email"
+            type="email"
+            required
+            placeholder="Email"
+            class="w-full rounded-lg border border-ink-900/15 bg-white px-3 py-2.5 text-sm text-ink-900 outline-none focus:border-accent-500"
+          />
+          <textarea
+            [(ngModel)]="form.message"
+            name="message"
+            required
+            rows="4"
+            placeholder="How can we help?"
+            class="w-full rounded-lg border border-ink-900/15 bg-white px-3 py-2.5 text-sm text-ink-900 outline-none focus:border-accent-500"
+          ></textarea>
+          <button
+            type="submit"
+            [disabled]="submitting()"
+            class="w-full rounded-full bg-accent-500 px-5 py-3 text-sm font-bold text-white transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:scale-[1.02] disabled:opacity-60"
+          >
+            {{ submitting() ? 'Sending…' : 'Send message' }}
+          </button>
+          @if (error()) {
+            <p class="text-xs text-red-600">Something went wrong — please try WhatsApp instead.</p>
+          }
+        </form>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,28 @@
+<section class="py-6">
+  <div class="container-page">
+    <div class="flex flex-wrap items-center gap-2" [appReveal]="0">
+      @for (category of categories; track category.id) {
+        <button
+          type="button"
+          (click)="setFilter(category.id)"
+          class="rounded-full border px-4 py-2 text-sm font-semibold transition-colors duration-200"
+          [class]="
+            activeFilter() === category.id
+              ? 'border-ink-950 bg-ink-950 text-white'
+              : 'border-ink-900/12 text-ink-700 hover:border-accent-400 hover:text-accent-700'
+          "
+        >
+          {{ category.label }}
+        </button>
+      }
+    </div>
+
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      @for (product of products(); track product.id; let i = $index) {
+        <div [appReveal]="i * 80">
+          <app-product-card [product]="product" />
+        </div>
+      }
+    </div>
+  </div>
+</section>
